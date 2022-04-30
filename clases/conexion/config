@@ -1,0 +1,9 @@
+{
+    "conexion":{
+        "server": "localhost",
+        "user": "root",
+        "password": "dgrozo18",
+        "database": "spa_fenixdb",
+        "port": "3306"        
+    }
+}
