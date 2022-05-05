@@ -31,9 +31,9 @@ class producto extends conexion{
         }
     }
 
-    public function obtenerProducto($id){
+    public function obtenerProducto($name){
         $_respuestas = new respuestas;
-        $query = "SELECT  * , (precio_publico-precio_costo) as rentabilidad FROM producto WHERE Id_producto = '$id'";
+        $query = "SELECT  * , (precio_publico-precio_costo) as rentabilidad FROM producto WHERE nombre = '$name'";
         $resp = parent::obtenerDatos($query);
         if($resp){
             return $resp;
@@ -96,13 +96,13 @@ class producto extends conexion{
 
         $datos = json_decode($json,True);
 
-        if(!isset($datos['id_producto'])){
+        if(!isset($datos['nombre'])){
             return $_respuestas->error_400();
         }else{
-            $this -> id= $datos['id_producto'];
+            $this -> nombre= $datos['nombre'];
             if(isset($datos['id_categoria'])){ $this->id_categoria = $datos['id_categoria'];}
             if(isset($datos['id_proveedor'])){$this->id_proveedor = $datos['id_proveedor'];}
-            if(isset($datos['nombre'])){$this->nombre = $datos['nombre'];}
+            if(isset($datos['id'])){$this->id = $datos['id'];}
             if(isset($datos['precio_costo'])){$this->precio_costo = $datos['precio_costo'];}
             if(isset($datos['precio_publico'])){$this->precio_publico = $datos['precio_publico'];}
             if(isset($datos['iva'])){$this->iva = $datos['iva'];}
@@ -125,7 +125,7 @@ class producto extends conexion{
 
     private function modificarProduto(){
         $query = " UPDATE " . $this->table . " SET Id_categoria ='" . $this->id_categoria . "', Id_proveedor = '" . $this->id_proveedor . "', nombre = '" . $this->nombre . "', precio_costo = '" . $this->precio_costo . "', precio_publico = '" . $this->precio_publico . "', iva = '" . $this->iva .
-        "', fecha_entrada = '" . $this->fecha_entrada . "', fecha_vencimiento = '" . $this->fecha_vencimiento . "' WHERE Id_producto= '" . $this->id . "'";  
+        "', fecha_entrada = '" . $this->fecha_entrada . "', fecha_vencimiento = '" . $this->fecha_vencimiento . "' WHERE nombre= '" . $this->nombre . "'";  
         
         $resp = parent::nonQuery($query);
         echo $resp;
@@ -141,15 +141,15 @@ class producto extends conexion{
         $_respuestas = new respuestas;
         $datos = json_decode($json,true);
 
-        if(!isset($datos['id_producto'])){
+        if(!isset($datos['nombre'])){
             return $_respuestas -> error_400();
         }else{
-            $this-> id = $datos['id_producto'];
+            $this-> nombre = $datos['nombre'];
             $resp = $this->eliminarProducto();
             if ($resp){
                 $respuesta = $_respuestas->response;
                 $respuesta['result'] = array(
-                    "El producto con id ". $this->id . " Fue eliminado"
+                    "El producto ". $this->nombre . " Fue eliminado"
                 );
                 return $respuesta;
             }else{
@@ -160,7 +160,7 @@ class producto extends conexion{
     }
 
     private function eliminarProducto(){
-        $query = "DELETE FROM " . $this->table . " WHERE Id_producto = '" . $this->id . "'";
+        $query = "DELETE FROM " . $this->table . " WHERE nombre = '" . $this->nombre . "'";
         $resp = parent::nonQuery($query);
         echo $resp;
             if($resp>=1){

@@ -129,7 +129,7 @@ class users extends conexion{
             }
 
         }else {
-            return $_respuestas -> error_200("Se necesita permiso de administrador paraeliminar usuarios");
+            return $_respuestas -> error_200("Se necesita permiso de administrador para eliminar usuarios");
 
         }
         
