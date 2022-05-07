@@ -7,14 +7,14 @@ class users extends conexion{
 
     private $table = "user";
     private $id_user = "";
-    private $id_type_user = "";
+    private $tipo = "";
     private $nombre = "";
     private $correo = "";
     private $password = "";
     private $tipoUser = "";
 
-    public function obtenerUser($id){
-        $query = "SELECT * FROM " . $this->table. " WHERE Id_user = '$id'";
+    public function obtenerUser($correo){
+        $query = "SELECT * FROM " . $this->table. " WHERE correo = '$correo'";
         return parent::obtenerDatos($query);
 
     }
@@ -26,11 +26,11 @@ class users extends conexion{
         $_respuestas = new respuestas;
         $datos = json_decode($json, true);
 
-        if(!isset($datos['id_type_user']) || !isset($datos['nombre']) || !isset($datos['correo']) || !isset($datos['password'])){
+        if(!isset($datos['tipo']) || !isset($datos['nombre']) || !isset($datos['correo']) || !isset($datos['password'])){
             return $_respuestas -> error_400();
         }else {
             //$this -> id_user = $datos['id_user'];
-            $this -> id_type_user = $datos['id_type_user'];
+            $this -> tipo = $datos['tipo'];
             $this -> nombre = $datos['nombre'];
             $this -> correo = $datos['correo'];
             $this -> password = parent::encriptar($datos['password']);
@@ -48,7 +48,7 @@ class users extends conexion{
     }
 
     private function insertarUser(){
-        $query = "INSERT INTO " . $this->table . " ( Id_type_user, nombre, correo, password) VALUES ('" . $this->id_type_user . "','" . $this->nombre . "','" . $this->correo . "','" . $this->password . "')";
+        $query = "INSERT INTO " . $this->table . " ( tipo, nombre, correo, password) VALUES ('" . $this->tipo . "','" . $this->nombre . "','" . $this->correo . "','" . $this->password . "')";
 
         $resp = parent::nonQueryId($query);
         if($resp){
@@ -65,11 +65,11 @@ class users extends conexion{
         $_respuestas = new respuestas;
         $datos = json_decode($json,true);
         
-        if(!isset($datos['id_type_user']) || !isset($datos['id_user'])){
-            return $_respuestas -> error_200("Se necesita el tipo de usuario que se va modificar");
+        if( !isset($datos['id_user'])){
+            return $_respuestas -> error_200("datos incorrectos");
         }else{
             $this -> id_user = $datos['id_user'];
-            $this -> id_type_user = $datos['id_type_user'];
+            if(isset($datos['tipo'])) {$this -> tipo = $datos['tipo'];}
             if(isset($datos['nombre'])){ $this-> nombre = $datos['nombre'];}
             if(isset($datos['correo'])){ $this-> correo = $datos['correo'];}
             if(isset($datos['password'])){ $this-> password = parent::encriptar($datos['password']);}
@@ -89,7 +89,7 @@ class users extends conexion{
     }
 
     private function modificarUser(){
-        $query = "UPDATE " . $this->table . " SET nombre = '" . $this->nombre . "', correo = '" . $this->correo . "', password = '" . $this->password . "' WHERE Id_user = '" . $this->id_user . "'";
+        $query = "UPDATE " . $this->table . " SET nombre = '" . $this->nombre . "', tipo = '" . $this->tipo . "', correo = '" . $this->correo . "', password = '" . $this->password . "' WHERE Id_user = '" . $this->id_user . "'";
         $resp = parent::nonQuery($query);
         if($resp>=1){
             return $resp;
@@ -103,23 +103,23 @@ class users extends conexion{
         $_respuestas = new respuestas;
         $datos = json_decode($json,true);
         
-        $this->tipoUser = $datos['id_type_user'];   
+        $this->tipoUser = $datos['tipo'];   
             
         $arrayUser = $this->obtenerTypeUser();
         
         $this->tipoUser = $arrayUser[0]['tipo'];
 
         if($this->tipoUser == "Administrador"){
-            if(!isset($datos['id_user'])){
+            if(!isset($datos['correo'])){
                 return $_respuestas -> error_400();
             }else{
-                $this->id_user = $datos['id_user'];
+                $this->correo = $datos['correo'];
                 $resp = $this->eliminarUser();
 
                 if($resp){
                     $respuesta = $_respuestas -> response;
                     $respuesta["result"] = array(
-                        "EL usuario ". $this->id_user . " Fue eliminado"
+                        "EL usuario ". $this->correo . " Fue eliminado"
                     );
                     return $respuesta;
                 }else{
@@ -136,7 +136,7 @@ class users extends conexion{
     }
 
     private function obtenerTypeUser(){
-        $query = "SELECT tipo  FROM typeuser WHERE Id_type_user = '" . $this->tipoUser . "'";
+        $query = "SELECT tipo  FROM typeuser WHERE tipo = '" . $this->tipoUser . "'";
         $resp = parent::obtenerDatos($query);
         if(isset($resp)){
             return $resp;
@@ -147,7 +147,7 @@ class users extends conexion{
     }
 
     private function eliminarUser(){
-        $query = "DELETE FROM " . $this->table . " WHERE Id_user = '" . $this->id_user . "'";
+        $query = "DELETE FROM " . $this->table . " WHERE correo = '" . $this->correo . "'";
         $resp =  parent::nonQuery($query);
 
         if($resp>=1){

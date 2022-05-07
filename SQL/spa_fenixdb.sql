@@ -79,8 +79,8 @@ DROP TABLE IF EXISTS `producto`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `producto` (
   `Id_producto` int NOT NULL AUTO_INCREMENT,
-  `Id_categoria` int NOT NULL,
-  `Id_proveedor` int NOT NULL,
+  `categoria` varchar(50) NOT NULL,
+  `nit_proveedor` int NOT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `precio_costo` int DEFAULT NULL,
   `precio_publico` int DEFAULT NULL,
@@ -88,8 +88,8 @@ CREATE TABLE `producto` (
   `fecha_entrada` date DEFAULT NULL,
   `fecha_vencimiento` date DEFAULT NULL,
   `descripcion` varchar(300) DEFAULT NULL,
-  PRIMARY KEY (`Id_producto`,`Id_categoria`,`Id_proveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`Id_producto`,`categoria`,`nit_proveedor`)
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES (112,1000,3,'jabon para hongos',5000,8999,19,'0000-00-00','0000-00-00',NULL),(113,1004,3,'perfume',50000,90000,19,'2021-06-12','2022-06-12',NULL),(118,1002,1,'rodillo',6500,7000,19,'2021-06-12','2022-06-12',NULL),(119,1003,2,'masaje',10000,36754,19,'2021-06-12','2022-06-12',NULL);
+INSERT INTO `producto` VALUES (112,'Jabon',875638900,'jabon para hongos',3999,7000,19,'2021-08-24','2022-06-12',NULL),(113,'1004',3,'perfume',50000,90000,19,'2021-06-12','2022-06-12',NULL),(118,'1002',1,'rodillo',6500,7000,19,'2021-06-12','2022-06-12',NULL),(119,'1003',2,'masaje',10000,36754,19,'2021-06-12','2022-06-12',NULL),(120,'1002',1,'baño espuma',30000,75000,19,'2021-06-12','2022-06-12',NULL),(121,'envellecimiento',10056813,'crema para la cara',12999,20000,19,'2021-06-12','2022-06-12',NULL);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,14 +160,12 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `Id_user` int NOT NULL AUTO_INCREMENT,
-  `Id_type_user` int NOT NULL,
+  `tipo` varchar(20) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `correo` varchar(30) NOT NULL,
   `password` varchar(50) NOT NULL,
-  PRIMARY KEY (`Id_user`,`Id_type_user`),
-  KEY `Id_type_user_idx` (`Id_type_user`),
-  CONSTRAINT `Id_type_user` FOREIGN KEY (`Id_type_user`) REFERENCES `typeuser` (`Id_type_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`Id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +174,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (100,1,'juan','juan@gmail.com','123456'),(102,3,'david perez','david@perezmail.com','25d55ad283aa400af464c76d713c07ad'),(103,3,'Diego rozo','Diego@perezmail.com','25d55ad283aa400af464c76d713c07ad'),(105,2,'Misgel Gomez','Mishe@gmail.com','e10adc3949ba59abbe56e057f20f883e'),(106,2,'Misgel Gomez','Mishe@gmail.com','e10adc3949ba59abbe56e057f20f883e'),(107,2,'Misgel Gomez','Mishe@gmail.com','e10adc3949ba59abbe56e057f20f883e'),(109,4,'Misgel Gomez','Mishe@gmail.com','e10adc3949ba59abbe56e057f20f883e');
+INSERT INTO `user` VALUES (102,NULL,'david perez','david@perezmail.com','25d55ad283aa400af464c76d713c07ad'),(103,NULL,'Diego rozo','Diego@perezmail.com','25d55ad283aa400af464c76d713c07ad'),(105,NULL,'Misgel Gomez','Mishe@gmail.com','e10adc3949ba59abbe56e057f20f883e'),(106,NULL,'Misgel Gomez','Mishe@gmail.com','e10adc3949ba59abbe56e057f20f883e'),(107,NULL,'Misgel Gomez','Mishe@gmail.com','e10adc3949ba59abbe56e057f20f883e'),(109,'cliente','ñoño gay','ñoñoEsGay@gmail.com','e10adc3949ba59abbe56e057f20f883e'),(110,'cliente','chanchito feliz','chanchito@gmail.com','e10adc3949ba59abbe56e057f20f883e');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-04 19:21:35
+-- Dump completed on 2022-05-07 15:33:16

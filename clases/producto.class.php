@@ -7,8 +7,8 @@ class producto extends conexion{
 
     public $table = "producto";
     public $id = "";
-    public $id_categoria = "";
-    public $id_proveedor = "";
+    public $categoria = "";
+    public $nit_proveedor = "";
     public $nombre = "";
     public $precio_costo = "";
     public $precio_pulico = "";
@@ -49,11 +49,11 @@ class producto extends conexion{
         $_respuestas = new respuestas;
         $datos = json_decode($json,true);
 
-        if(!isset($datos['id_categoria']) || !isset($datos['id_proveedor']) || !isset($datos['nombre'])   || !isset($datos['precio_costo']) || !isset($datos['precio_publico']) || !isset($datos['fecha_entrada']) || !isset($datos['fecha_vencimiento']) || !isset($datos['iva'])){
+        if(!isset($datos['categoria']) || !isset($datos['nit_proveedor']) || !isset($datos['nombre'])   || !isset($datos['precio_costo']) || !isset($datos['precio_publico']) || !isset($datos['fecha_entrada']) || !isset($datos['fecha_vencimiento']) || !isset($datos['iva'])){
             return $_respuestas -> error_400();
         }else {
-            $this -> id_categoria = $datos['id_categoria'];
-            $this -> id_proveedor = $datos['id_proveedor'];
+            $this -> categoria = $datos['categoria'];
+            $this -> nit_proveedor = $datos['nit_proveedor'];
             $this -> nombre = $datos['nombre'];
             $this -> iva = $datos['iva'];
             $this -> precio_costo = $datos['precio_costo'];
@@ -76,9 +76,9 @@ class producto extends conexion{
     }
 
     private function insertarProducto(){
-        $query =  " INSERT INTO " . $this->table . " (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento)
+        $query =  " INSERT INTO " . $this->table . " (categoria, nit_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento)
         values 
-        ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";
+        ('" . $this->categoria . "','" . $this->nit_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";
         // "INSERT INTO producto (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento) values ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this->precio_costo . "','" . $this->precio_publico "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";  
         echo $query;
         $resp = parent::nonQueryId($query);
@@ -100,8 +100,8 @@ class producto extends conexion{
             return $_respuestas->error_400();
         }else{
             $this -> nombre= $datos['nombre'];
-            if(isset($datos['id_categoria'])){ $this->id_categoria = $datos['id_categoria'];}
-            if(isset($datos['id_proveedor'])){$this->id_proveedor = $datos['id_proveedor'];}
+            if(isset($datos['categoria'])){ $this->categoria = $datos['categoria'];}
+            if(isset($datos['nit_proveedor'])){$this->nit_proveedor = $datos['nit_proveedor'];}
             if(isset($datos['id'])){$this->id = $datos['id'];}
             if(isset($datos['precio_costo'])){$this->precio_costo = $datos['precio_costo'];}
             if(isset($datos['precio_publico'])){$this->precio_publico = $datos['precio_publico'];}
@@ -115,6 +115,7 @@ class producto extends conexion{
                 $resuesta['result'] = array(
                     "El producto ha sido modificado"
                 );
+                return $respuesta;
             }else{
                 return $_respuestas -> error_500();
             }
@@ -124,7 +125,7 @@ class producto extends conexion{
  
 
     private function modificarProduto(){
-        $query = " UPDATE " . $this->table . " SET Id_categoria ='" . $this->id_categoria . "', Id_proveedor = '" . $this->id_proveedor . "', nombre = '" . $this->nombre . "', precio_costo = '" . $this->precio_costo . "', precio_publico = '" . $this->precio_publico . "', iva = '" . $this->iva .
+        $query = " UPDATE " . $this->table . " SET categoria ='" . $this->categoria . "', nit_proveedor = '" . $this->nit_proveedor . "', nombre = '" . $this->nombre . "', precio_costo = '" . $this->precio_costo . "', precio_publico = '" . $this->precio_publico . "', iva = '" . $this->iva .
         "', fecha_entrada = '" . $this->fecha_entrada . "', fecha_vencimiento = '" . $this->fecha_vencimiento . "' WHERE nombre= '" . $this->nombre . "'";  
         
         $resp = parent::nonQuery($query);

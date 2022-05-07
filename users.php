@@ -9,9 +9,9 @@ $_users = new users;
 if($_SERVER['REQUEST_METHOD']=="GET"){
 
     
-    if(isset($_GET['id'])){
-        $userId = $_GET['id'];
-        $datosUser = $_users -> obtenerUser($userId);
+    if(isset($_GET['correo'])){
+        $correo = $_GET['correo'];
+        $datosUser = $_users -> obtenerUser($correo);
         header("Content-Type: application/json");
         echo json_encode($datosUser);
         
@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD']=="GET"){
     $datosArray = $_users -> post($postBody);
     header("Content-Type: application/json");
     if (isset($datosArray["result"]["error_id"])){
-        $resposeCode = $datosArray["result"]["error_id"];
+        $responseCode = $datosArray["result"]["error_id"];
         http_response_code($responseCode);
     }else{
         http_response_code(200);
