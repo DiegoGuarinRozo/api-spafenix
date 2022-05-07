@@ -1,61 +1,69 @@
 # api-spafenix
 
-LOGIN : http://localhost/SPA/login.php
-    type: post
-    parametros: {
-                  "user": varchar,
-                  "password": varchar
-                 }
+LOGIN: 
 
-USUARIOS : 
+	API: http://localhost/SPA/login.php
+	type: post
+	parametros: {
+		"user": varchar,
+		"password": varchar
+	}
 
-	buscar ususario por correo -> http://localhost/SPA/users?correo=david@perezmail.com
+
+USUARIOS: Buscar ususario por correo -> http://localhost/SPA/users?correo=david@perezmail.com
+	
+	API: http://localhost/SPA/users?correo={gmail}
 	type: get
-
 	REGISTRAR UN USUARIO: http://localhost/SPA/users.php
 	type: post 
 	parametros: {
-    			"tipo": varchar,
-    			"nombre": varchar,
-    			"correo": varchar,
-    			"password": varchar
-		    }
+    	"tipo": varchar,
+    	"nombre": varchar,
+    	"correo": varchar,
+    	"password": varchar
+	}
 
-	MODIFICAR UN USUARIO : http://localhost/SPA/users.php
-	type: put
-	parametos : segun se deseen modificar	 		  
-                  {   
-   		    "id_user": int, -> obligatorio
-    		    "tipo": varchar,
-     		    "nombre": varchar,
-  		    "correo": varchar,
-		    "password": varchar 
-		   }
+
+MODIFICAR UN USUARIO : 
+     
+     API: http://localhost/SPA/users.php
+     type: put
+	parametos : {   
+   		"id_user": int, -> obligatorio
+    	"tipo": varchar,
+     	"nombre": varchar,
+  		"correo": varchar,
+		"password": varchar 
+	}
 	
-	ELIMINAR UN USUARIO: 
+ELIMINAR UN USUARIO: 
+
     	type: delete
-	parametros : 
-		     {   
-		       "correo": varchar, ->obligatorio
-   		       "tipo": varchar -> obligatorio
-		     }
+	parametros : {   
+		"correo": varchar, -> obligatorio
+   		"tipo": varchar -> obligatorio
+	}
 
                 
 PRODUCTOS : 
-     -> REGISTAR UN PRODUTO : http://localhost/SPA/producto.php
+
+
+REGISTAR UN PRODUTO : 
+
+          API: http://localhost/SPA/producto.php
           type : post
           parametros: {
-                          "categoria": varchar,
-                          "nit_proveedor": int,
-                          "nombre": varchar,
-                          "precio_costo": int,
-                          "precio_publico": int,
-                          "fecha_entrada": data,
-                          "fecha_vencimiento": data,
-                          "iva": int
-                      }
+               "categoria": varchar,
+               "nit_proveedor": int,
+               "nombre": varchar,
+               "precio_costo": int,
+               "precio_publico": int,
+               "fecha_entrada": data,
+               "fecha_vencimiento": data,
+               "iva": int
+          }
 
-      -> VER PRODUCTOS: -> obtener un produto por su nombre = http://localhost/SPA/producto?Nameproduct= humectante
+     VER PRODUCTOS: -> obtener un produto por su nombre = http://localhost/SPA/producto?Nameproduct= humectante
                         -> obtener todos los productos = http://localhost/SPA/producto?product=allProducts
            type : get
            
@@ -80,6 +88,7 @@ PRODUCTOS :
                       }
  
 COTIZACIONES : 
+
        -> REGISTAR LA COTIZACION DE UN PRODUCTO : http://localhost/SPA/cotizacion.php
           type: post 
           parametros : {
