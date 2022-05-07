@@ -1,6 +1,6 @@
 # api-spafenix
 
-login : http://localhost/SPA/login.php
+LOGIN : http://localhost/SPA/login.php
     type: post
     parametros: {
                   "user": varchar,
