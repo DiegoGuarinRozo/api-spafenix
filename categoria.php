@@ -1,26 +1,25 @@
-<?php 
+<?php
 
-require_once "clases/respuestas.class.php";
-require_once "clases/producto.class.php";
+require_once 'clases/categoria.class.php';
+require_once 'clases/respuestas.class.php';
 
 
 $_respuestas = new respuestas;
-$_producto = new producto;
+$_categoria = new categoria;
 
 if($_SERVER['REQUEST_METHOD'] == "GET"){
 
-    if(isset($_GET["product"])){
-        $productos = $_GET["product"];
-        $listaProductos = $_producto -> listaProductos($productos);
+    if(isset($_GET["cat"])){
+        $categorias = $_GET["cat"];
+        $listaCategorias = $_categoria -> listaCat($categorias);
         header("Content-Type: application/json");
-        echo json_encode($listaProductos);
+        echo json_encode($listaCategorias);
         http_response_code(200);
-    }else if (isset($_GET['Nameproduct'])){
-        $productoId = $_GET['Nameproduct'];
-        echo $productoId . '         ';
-        $datosProducto = $_producto -> obtenerProducto($productoId);
+    }else if (isset($_GET['nomCat'])){
+        $categoriaId = $_GET['nomCat'];
+        $datosCategoria = $_categoria -> categoriaUnica($categoriaId);
         header("Content-Type: application/json");
-        echo json_encode($datosProducto);
+        echo json_encode($datosCategoria);
         http_response_code(200);
     }
 
@@ -28,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
 }else if($_SERVER['REQUEST_METHOD'] == "POST"){
 
     $postBody = file_get_contents("php://input");
-    $datosArray = $_producto -> post($postBody);
+    $datosArray = $_categoria -> aggCategoria_PUT($postBody);
     header('content-Type: application/json');
 
     if(isset($datosArray['result']['error_id'])){
@@ -46,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
 }else if($_SERVER['REQUEST_METHOD'] == "PUT"){
     
     $postBody = file_get_contents("php://input");
-    $datosArray = $_producto -> put($postBody);
+    $datosArray = $_categoria -> modCategoria_PUT($postBody);
     header('content-Type: application/json');
 
     if(!isset($datosArray['result']['error_id'])){
@@ -82,6 +81,8 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
     $datosArray = $_respuestas -> error_400();
     echo json_encode($datosArray);
 }
+
+
 
 
 ?>

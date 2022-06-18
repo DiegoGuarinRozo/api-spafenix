@@ -71,7 +71,6 @@ class cotizacion extends conexion{
 
     private function registrarCotProducto(){
 
-
         $query = " INSERT INTO " . $this->table . " (Id_producto, cedulaCliente, nombreProducto, nombreCliente, cantidad, precioPublico, precioCosto, fecha_cotizacion)
         values 
         ('" . $this->id_producto . "','" . $this->cedulaCliente . "','" . $this->nombreProducto . "','" .  $this->nombreCliente . "','" . $this->cantidad . "','" . $this-> precioPublico . "','" . $this->precioCosto . "','" . $this->fecha_cotizacion . "')";

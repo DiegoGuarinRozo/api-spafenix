@@ -80,7 +80,7 @@ class producto extends conexion{
         values 
         ('" . $this->categoria . "','" . $this->nit_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";
         // "INSERT INTO producto (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento) values ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this->precio_costo . "','" . $this->precio_publico "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";  
-        echo $query;
+      
         $resp = parent::nonQueryId($query);
         if($resp){
             return $resp;
@@ -96,10 +96,11 @@ class producto extends conexion{
 
         $datos = json_decode($json,True);
 
-        if(!isset($datos['nombre'])){
+        if(!isset($datos['Id_producto'])){
             return $_respuestas->error_400();
         }else{
-            $this -> nombre= $datos['nombre'];
+            $this -> id = $datos['Id_producto'];
+            if(isset($datos['nombre'])){$this -> nombre= $datos['nombre'];}
             if(isset($datos['categoria'])){ $this->categoria = $datos['categoria'];}
             if(isset($datos['nit_proveedor'])){$this->nit_proveedor = $datos['nit_proveedor'];}
             if(isset($datos['id'])){$this->id = $datos['id'];}
@@ -126,7 +127,7 @@ class producto extends conexion{
 
     private function modificarProduto(){
         $query = " UPDATE " . $this->table . " SET categoria ='" . $this->categoria . "', nit_proveedor = '" . $this->nit_proveedor . "', nombre = '" . $this->nombre . "', precio_costo = '" . $this->precio_costo . "', precio_publico = '" . $this->precio_publico . "', iva = '" . $this->iva .
-        "', fecha_entrada = '" . $this->fecha_entrada . "', fecha_vencimiento = '" . $this->fecha_vencimiento . "' WHERE nombre= '" . $this->nombre . "'";  
+        "', fecha_entrada = '" . $this->fecha_entrada . "', fecha_vencimiento = '" . $this->fecha_vencimiento . "', nombre = '" . $this->nombre .  "' WHERE Id_producto= '" . $this->id . "'";  
         
         $resp = parent::nonQuery($query);
         echo $resp;

@@ -18,40 +18,33 @@ class login extends conexion{
             $password = $datos['password'];
             //$password = parent::encriptar($password);
             $resp = $this-> obtenerUsuario($user);
-            if($datos){
 
-                if($resp[0]['correo'] == $user){
+            if($resp){
 
-                    if($resp[0]['password']== $password){
+                if($resp[0]['password']== $password){
 
-                        $respuesta = $_respuestas-> response;
-                        $respuesta['result'] = array(
-                            "SE HA REALIZADO EL LOGN"
-                        );
-                        return $respuesta;
-
-                    }else{
-                       return $_respuestas -> error_200('contraseña incorrecta');
-                    }
+                    $respuesta = $_respuestas-> response;
+                    $respuesta['result'] = array(
+                        "SE HA REALIZADO EL LOGN"
+                    );
+                    return $respuesta;
 
                 }else{
-                     return $_respuestas -> error_200("El usuario $user no existe");
+                    return $_respuestas -> error_200('contraseña incorrecta');
                 }
+
             }else{
-                return $_respuestas-> error_500();
+                return $_respuestas -> error_200("El usuario $user no existe");
             }
-            
-
-
 
         }
-
     }
 
     private function obtenerUsuario($correo){
 
         $query = "SELECT correo, password FROM user WHERE correo = '$correo'";
         $resp = parent::obtenerDatos($query);
+
         if($resp){
             return $resp;
         }else{

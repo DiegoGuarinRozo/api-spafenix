@@ -13,6 +13,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $postBody = file_get_contents('php://input');
     $datosArray = $_login -> logins($postBody);
 
+    
+
     header('content-Type: application/jason');
     
     if(isset($datosArray["result"]["error_id"])){
