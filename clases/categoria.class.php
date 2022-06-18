@@ -66,6 +66,7 @@ class categoria extends conexion{
             if(isset($datos['descripcionCat'])){$this->descripcionCat = $datos['descripcionCat']; }
         }
         $query = "UPDATE categoria SET nombre = '" . $this->nombre . "', descripcionCat = '" . $this->descripcionCat . "' WHERE Id_categoria = '" . $this->Id_categoria . "'";
+        
         $resp = parent::nonQuery($query);
         if($resp) {
             $respuesta = $_respuestas -> response;

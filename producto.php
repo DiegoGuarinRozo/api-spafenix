@@ -61,21 +61,13 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
 
 
 }else if($_SERVER['REQUEST_METHOD'] == "DELETE"){
-
-    $postBody = file_get_contents("php://input");
-    $datosArray = $_producto->delete($postBody);
-
-    header('content-Type: application/json');
-
-    if(!isset($datosArray['result']['error_id'])){
-        $responseCode = $datosArray["result"]["error_id"];
-        http_response_code($responseCode);
-
-    }else{
+    if(isset($_GET["Id_producto"])){
+        $productos = $_GET["Id_producto"];
+        $listaProductos = $_producto -> eliminarProducto($productos);
+        header("Content-Type: application/json");
+        echo json_encode($listaProductos);
         http_response_code(200);
     }
-
-    echo json_encode($datosArray);
 
 }else{
     header('content-Type: application/jason');
