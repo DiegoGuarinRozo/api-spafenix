@@ -1,30 +1,29 @@
-<?php
+<?php 
 
-require_once 'clases/categoria.class.php';
-require_once 'clases/respuestas.class.php';
-
+require_once "clases/respuestas.class.php";
+require_once "clases/proveedor.class.php";
 
 $_respuestas = new respuestas;
-$_categoria = new categoria;
+$_proveedor = new proveedor;
 
 if($_SERVER['REQUEST_METHOD'] == "GET"){
 
-    if(isset($_GET["cat"])){
-        $categorias = $_GET["cat"];
-        $listaCategorias = $_categoria -> listaCat($categorias);
+    if(isset($_GET["provee"])){
+        $proveedores = $_GET["provee"];
+        $listaProveedores = $_proveedor -> listaProvee($proveedores);
         header("Content-Type: application/json");
-        echo json_encode($listaCategorias);
+        echo json_encode($listaProveedores);
         http_response_code(200);
-    }else if (isset($_GET['nomCat'])){
-        $categoriaId = $_GET['nomCat'];
-        $datosCategoria = $_categoria -> categoriaUnica($categoriaId);
+    }else if (isset($_GET['nomProvee'])){
+        $proveedorId = $_GET['nomProvee'];
+        $datosProveedor = $_proveedor -> proveedorUnico($proveedorId);
         header("Content-Type: application/json");
-        echo json_encode($datosCategoria);
+        echo json_encode($datosProveedor);
         http_response_code(200);
     }
 
 
-}else if($_SERVER['REQUEST_METHOD'] == "POST"){
+}/* else if($_SERVER['REQUEST_METHOD'] == "POST"){
 
     $postBody = file_get_contents("php://input");
     $datosArray = $_categoria -> aggCategoria_POST($postBody);
@@ -80,8 +79,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
     header('content-Type: application/jason');
     $datosArray = $_respuestas -> error_400();
     echo json_encode($datosArray);
-}
-
+} */
 
 
 

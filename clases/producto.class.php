@@ -168,11 +168,11 @@ class producto extends conexion{
         $query = "DELETE FROM " . $this->table . " WHERE Id_producto = '" . $dato . "'";
         $resp = parent::nonQuery($query);
         echo $resp;
-            if($resp>=1){
-                return $resp;
-            }else{
-                return 0;
-            }
+        if($resp>=1){
+            return $resp;
+        }else{
+            return 0;
+        }
         
     }
 

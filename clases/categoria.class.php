@@ -33,23 +33,23 @@ class categoria extends conexion{
     }
 
 
-    public function aggCategoria_PUT($datos){
+    public function aggCategoria_POST($datos){
         $_respuestas = new respuestas;
         $datos = json_decode($datos, true);
         if(!isset($datos['nombreCategoria'])){
             $_respuestas->error_400();
         }else{
-            $this->Id_categoria = $datos['nombreCategoria'];
+            $this->nombre = $datos['nombreCategoria'];
             if(isset($datos['descripcionCat'])){$this->descripcionCat = $datos['descripcionCat'];}
-        }
-        $query = "INSERT INTO categoria(nombre, descripcionCat) VALUES ('"  . $this->Id_categoria . "', '" . $this->descripcionCat . "')";
-        $resp = parent::nonQueryId($query);
-        if($resp) {
-            $respuesta = $_respuestas -> response;
-            $respuesta["result"] = array("se ha agregado el producto con ID: " => $resp );
-            return $respuesta;
-        }else{
-            return $_respuestas -> error_500();
+            $query = "INSERT INTO categoria(nombre, descripcionCat) VALUES ('"  . $this->nombre . "', '" . $this->descripcionCat . "')";
+            $resp = parent::nonQueryId($query);
+            if($resp) {
+                $respuesta = $_respuestas -> response;
+                $respuesta["result"] = array("se ha agregado la categoria con ID: " => $resp );
+                return $respuesta;
+            }else{
+                return $_respuestas -> error_500();
+            }
         }
     }
 
@@ -64,17 +64,40 @@ class categoria extends conexion{
             $this-> Id_categoria = $datos['Id_categoria'];
             if(isset($datos['nombreCategoria'])){$this->nombre = $datos['nombreCategoria']; }
             if(isset($datos['descripcionCat'])){$this->descripcionCat = $datos['descripcionCat']; }
+
+            $query = "UPDATE categoria SET nombre = '" . $this->nombre . "', descripcionCat = '" . $this->descripcionCat . "' WHERE Id_categoria = '" . $this->Id_categoria . "'";
+            
+            $resp = parent::nonQuery($query);
+            if($resp) {
+                $respuesta = $_respuestas -> response;
+                $respuesta["result"] = array("Se ha modificado con exito" );
+                return $respuesta;
+            }else{
+                return $_respuestas -> error_500();
+            }
         }
-        $query = "UPDATE categoria SET nombre = '" . $this->nombre . "', descripcionCat = '" . $this->descripcionCat . "' WHERE Id_categoria = '" . $this->Id_categoria . "'";
-        
-        $resp = parent::nonQuery($query);
-        if($resp) {
-            $respuesta = $_respuestas -> response;
-            $respuesta["result"] = array("Se ha modificado con exito" );
-            return $respuesta;
+    }
+
+    public function deleteCategoria($dato){
+        $_respuestas = new respuestas;
+        $datos = json_decode($dato,true);
+        if(!isset($datos['Id_categoria'])){
+            return $_respuestas->error_400();
         }else{
-            return $_respuestas -> error_500();
+            $this->Id_categoria = $datos['Id_categoria'];
+
+            $query = "DELETE FROM categoria WHERE Id_categoria = " . $this->Id_categoria;
+            $resp = parent::nonQuery($query);
+            
+            if($resp>=1){
+                $respuesta = $_respuestas -> response;
+                $respuesta["result"] = array("La categoria fue eliminada");
+                return $respuesta;
+            }else{
+                return $_respuestas ->error_500();
+            }
         }
+
     }
 }
 

@@ -157,7 +157,7 @@ class cotizacion extends conexion{
             echo json_encode($datosProducto);
     
             foreach ($datosProducto as $key => $value) {
-    
+                
                 $this-> id_producto = $value['Id_producto'] ; 
                 $this-> nombreProducto = $value['nombre'] ;
                 $this-> precioCosto = $value['precio_costo'] ;
@@ -170,7 +170,7 @@ class cotizacion extends conexion{
     
             if($resp){
                 $respuesta = $_respuestas ->response;
-                $respuesta['resul'] = array(
+                $respuesta['result'] = array(
                     "Se ha realizado el cambio con exito"
                 );
 
@@ -207,8 +207,6 @@ class cotizacion extends conexion{
             return 0;
         }
     }
-
-
 }
 
 ?>
