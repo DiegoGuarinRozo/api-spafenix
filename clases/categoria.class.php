@@ -80,25 +80,17 @@ class categoria extends conexion{
 
     public function deleteCategoria($dato){
         $_respuestas = new respuestas;
-        $datos = json_decode($dato,true);
-        if(!isset($datos['Id_categoria'])){
-            return $_respuestas->error_400();
+        $query = "DELETE FROM categoria WHERE Id_categoria = " . $dato;
+        $resp = parent::nonQuery($query);    
+        if($resp>=1){
+            $respuesta = $_respuestas -> response;
+            $respuesta["result"] = array("La categoria fue eliminada");
+            return $respuesta;
         }else{
-            $this->Id_categoria = $datos['Id_categoria'];
-
-            $query = "DELETE FROM categoria WHERE Id_categoria = " . $this->Id_categoria;
-            $resp = parent::nonQuery($query);
-            
-            if($resp>=1){
-                $respuesta = $_respuestas -> response;
-                $respuesta["result"] = array("La categoria fue eliminada");
-                return $respuesta;
-            }else{
-                return $_respuestas ->error_500();
-            }
+            return $_respuestas ->error_500();
         }
-
     }
+    
 }
 
 

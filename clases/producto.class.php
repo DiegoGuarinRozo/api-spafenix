@@ -15,13 +15,18 @@ class producto extends conexion{
     public $iva = "";
     public $fecha_entrada = "0000-00-00";
     public $fecha_vencimiento = "0000-00-00";
+    public $descripcion = '';
     
 
     public function listaProductos($productos){
         $_respuestas = new respuestas;
         if($productos == "allProducts"){
-            
-            $query = "SELECT  * , (precio_publico-precio_costo) as rentabilidad FROM producto";
+            $query = "SELECT p.Id_producto,p.nombre as NombreProducto, p.upload, p.precio_costo, p.precio_publico, p.iva, p.fecha_entrada, p.fecha_vencimiento, p.descripcion,   c.nombre  as NombreCategoria, c.descripcionCat, pr.nombre as NombreProveedor, pr.nit as NitProveedor, (p.precio_publico-p.precio_costo) as rentabilidad
+                    from producto p 
+                    inner join categoria c on p.Id_categoria = c.Id_categoria
+                    inner join proveedor pr on p.Id_proveedor = pr.Id_proveedor
+                    order by p.Id_producto desc";
+           // $query = "SELECT  * , (precio_publico-precio_costo) as rentabilidad FROM producto";
             $resp = parent::obtenerDatos($query);
             
             if($resp){
@@ -42,8 +47,16 @@ class producto extends conexion{
             $_respuestas -> error_500();
         }
     }
-
-
+    public function obtenerProductoId($idProducto){
+        $_respuestas = new respuestas;
+        $query = "SELECT  * , (precio_publico-precio_costo) as rentabilidad FROM producto WHERE Id_producto = '$idProducto'";
+        $resp = parent::obtenerDatos($query);
+        if($resp){
+            return $resp;
+        }else{
+            $_respuestas -> error_500();
+        }
+    }
 
     public function post($json){
 
@@ -61,9 +74,9 @@ class producto extends conexion{
             $this -> precio_publico = $datos['precio_publico'];
             $this -> fecha_entrada = $datos['fecha_entrada'];
             $this -> fecha_vencimiento = $datos['fecha_vencimiento'];
+             
             $resp = $this->insertarProducto();
-            if($resp){
-                
+            if($resp){     
                 $respuesta = $_respuestas -> response;
                 $respuesta["result"] = array(
                     "se ha agregado el producto con ID: " => $resp
@@ -73,13 +86,17 @@ class producto extends conexion{
                 return $_respuestas -> error_500();
             }
         }
-
     }
 
+
+
+    
+
     private function insertarProducto(){
-        $query =  " INSERT INTO " . $this->table . " (categoria, nit_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento)
+        
+        $query =  "INSERT INTO " . $this->table . " (categoria, nit_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento, descripcion)
         values 
-        ('" . $this->categoria . "','" . $this->nit_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";
+        ('" . $this->categoria . "','" . $this->nit_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "','" . $this->fecha_vencimiento . "')";
         // "INSERT INTO producto (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento) values ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this->precio_costo . "','" . $this->precio_publico "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";  
       
         $resp = parent::nonQueryId($query);
@@ -110,6 +127,7 @@ class producto extends conexion{
             if(isset($datos['iva'])){$this->iva = $datos['iva'];$datosMod['iva'] = $this -> iva;}
             if(isset($datos['fecha_entrada'])){$this->fecha_entrada = $datos['fecha_entrada']; $datosMod['fecha_entrada'] = $this -> fecha_entrada;}
             if(isset($datos['fecha_vencimiento'])){$this->fecha_vencimiento = $datos['fecha_vencimiento']; $datosMod['fecha_vencimiento'] = $this -> fecha_vencimiento; }
+            if(isset($datos['descripcion'])){$this->descripcion = $datos['descripcion']; $datosMod['descripcion'] = $this -> descripcion; }
             $resp = $this -> modificarProduto($datosMod);
             
             if($resp){
@@ -128,11 +146,12 @@ class producto extends conexion{
         
         $query = " UPDATE producto SET ";
         foreach ($datosMod as $key => $value) {           
-                $query = $query  . "$key = " .  $value . ", ";   
+                $query = $query  . "$key = '" .  $value . "', ";   
         }
         
-        $query = rtrim($query, ", ") .  " WHERE Id_producto= '" . $this->id . "'";
-        $resp = parent::nonQuery($query);
+        $query1 = rtrim($query, ", ") .  " WHERE Id_producto= '" . $this->id . "'";
+        $resp = parent::nonQuery($query1);
+        echo $query1;
         echo $resp;
         if($resp) {
             return $resp;

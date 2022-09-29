@@ -23,12 +23,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
     echo json_encode($datosArray);
 
-}else if($_SERVER[('REQUEST_METHOD')] == "GET"){
 
-    if(isset($_GET['cedula'])){
-        $cotizacion = $_GET['cedula'];
+}else if($_SERVER[('REQUEST_METHOD')] == "GET"){ // -------OBTENER COTIZACION-------
+
+    if(isset($_GET['NumeroFactura'])){
+        $cotizacion = $_GET['NumeroFactura'];
         $respuesta = $_cotizacion -> obtenerCotizacion($cotizacion);
-        echo $respuesta;
+        echo ($respuesta);
         header("Content-Type: application/json");
         http_response_code(200);
     }
@@ -44,6 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 }else if($_SERVER['REQUEST_METHOD'] == 'PUT'){
     $postBody = file_get_contents('php://input');
     $respuesta = $_cotizacion ->put($postBody);
+    echo $postBody;
     header('content-Type: application/json');
 
     if(!isset($respuesta['result']['error_id'])){
