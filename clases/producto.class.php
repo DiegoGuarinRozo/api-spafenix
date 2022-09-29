@@ -51,7 +51,7 @@ class producto extends conexion{
     }
     public function obtenerProductoId($idProducto){
         $_respuestas = new respuestas;
-        $query = "SELECT p.Id_producto,p.nombre as NombreProducto, p.upload, p.precio_costo, p.precio_publico, p.iva, p.fecha_entrada, p.fecha_vencimiento, p.descripcion,   c.nombre  as NombreCategoria, c.descripcionCat, pr.nombre as NombreProveedor, pr.nit as NitProveedor, (p.precio_publico-p.precio_costo) as rentabilidad
+        $query = "SELECT p.Id_producto,p.nombre as NombreProducto, p.upload, p.precio_costo, p.precio_publico, p.iva, p.fecha_entrada, p.fecha_vencimiento, p.descripcion, c.Id_categoria, c.nombre  as NombreCategoria, c.descripcionCat,p.Id_proveedor, pr.nombre as NombreProveedor, pr.nit as NitProveedor, (p.precio_publico-p.precio_costo) as rentabilidad
         from producto p 
         inner join categoria c on p.Id_categoria = c.Id_categoria
         inner join proveedor pr on p.Id_proveedor = pr.Id_proveedor WHERE Id_producto = '$idProducto'";
@@ -139,7 +139,9 @@ class producto extends conexion{
             
             if($resp){
                 $respuesta = $_respuestas -> response;
-                $resuesta['result'] = array("El producto ha sido modificado");
+                $respuesta["result"] = array(
+                    "se ha modificado el producto"
+                );
                 return $respuesta;
             }{
                 return $_respuestas -> error_200('No se ha realizado ningun cambio');
