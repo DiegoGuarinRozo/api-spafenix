@@ -7,7 +7,7 @@ class producto extends conexion{
 
     public $table = "producto";
     public $id = "";
-    public $categoria = "";
+    public $id_categoria = "";
     public $nit_proveedor = "";
     public $nombre = "";
     public $precio_costo = "";
@@ -16,6 +16,7 @@ class producto extends conexion{
     public $fecha_entrada = "0000-00-00";
     public $fecha_vencimiento = "0000-00-00";
     public $descripcion = '';
+    public $id_proveedor = '';
     
 
     public function listaProductos($productos){
@@ -54,7 +55,7 @@ class producto extends conexion{
         from producto p 
         inner join categoria c on p.Id_categoria = c.Id_categoria
         inner join proveedor pr on p.Id_proveedor = pr.Id_proveedor WHERE Id_producto = '$idProducto'";
-        echo $query;
+        
         $resp = parent::obtenerDatos($query);
         if($resp){
             return $resp;
@@ -68,11 +69,12 @@ class producto extends conexion{
         $_respuestas = new respuestas;
         $datos = json_decode($json,true);
 
-        if(!isset($datos['categoria']) || !isset($datos['nit_proveedor']) || !isset($datos['nombre'])   || !isset($datos['precio_costo']) || !isset($datos['precio_publico']) || !isset($datos['fecha_entrada']) || !isset($datos['fecha_vencimiento']) || !isset($datos['iva'])){
+        if(!isset($datos['Id_categoria']) || !isset($datos['Id_proveedor']) || !isset($datos['nombre'])   || !isset($datos['precio_costo']) || !isset($datos['precio_publico']) || !isset($datos['fecha_entrada']) || !isset($datos['fecha_vencimiento']) || !isset($datos['iva'])){
+            
             return $_respuestas -> error_400();
         }else {
-            $this -> categoria = $datos['categoria'];
-            $this -> nit_proveedor = $datos['nit_proveedor'];
+            $this -> id_categoria = $datos['Id_categoria'];
+            $this -> id_proveedor = $datos['Id_proveedor'];
             $this -> nombre = $datos['nombre'];
             $this -> iva = $datos['iva'];
             $this -> precio_costo = $datos['precio_costo'];
@@ -99,11 +101,11 @@ class producto extends conexion{
 
     private function insertarProducto(){
         
-        $query =  "INSERT INTO " . $this->table . " (categoria, nit_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento, descripcion)
+        $query =  "INSERT INTO " . $this->table . " (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento, descripcion)
         values 
-        ('" . $this->categoria . "','" . $this->nit_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "','" . $this->fecha_vencimiento . "')";
+        ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "'," . $this->fecha_entrada . "," . $this->fecha_vencimiento . ",'" . $this->fecha_vencimiento . "')";
         // "INSERT INTO producto (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento) values ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this->precio_costo . "','" . $this->precio_publico "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";  
-      
+
         $resp = parent::nonQueryId($query);
         if($resp){
             return $resp;
