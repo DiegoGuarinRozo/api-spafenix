@@ -51,7 +51,7 @@ class producto extends conexion{
     }
     public function obtenerProductoId($idProducto){
         $_respuestas = new respuestas;
-        $query = "SELECT p.Id_producto,p.nombre as NombreProducto, p.upload, p.precio_costo, p.precio_publico, p.iva, p.fecha_entrada, p.fecha_vencimiento, p.descripcion,   c.nombre  as NombreCategoria, c.descripcionCat, pr.nombre as NombreProveedor, pr.nit as NitProveedor, (p.precio_publico-p.precio_costo) as rentabilidad
+        $query = "SELECT p.Id_producto,p.nombre as NombreProducto, p.upload, p.precio_costo, p.precio_publico, p.iva, p.fecha_entrada, p.fecha_vencimiento, p.descripcion, c.Id_categoria, c.nombre  as NombreCategoria, c.descripcionCat,p.Id_proveedor, pr.nombre as NombreProveedor, pr.nit as NitProveedor, (p.precio_publico-p.precio_costo) as rentabilidad
         from producto p 
         inner join categoria c on p.Id_categoria = c.Id_categoria
         inner join proveedor pr on p.Id_proveedor = pr.Id_proveedor WHERE Id_producto = '$idProducto'";
@@ -122,13 +122,13 @@ class producto extends conexion{
         $datos = json_decode($json,True);
 
         if(!isset($datos['Id_producto'])){
+            echo 'holaaa';
             return $_respuestas->error_400();
         }else{
             $this -> id = $datos['Id_producto'];
             if(isset($datos['nombre'])){$this -> nombre= $datos['nombre']; $datosMod['nombre'] = $this -> nombre; }
-            if(isset($datos['categoria'])){ $this->categoria = $datos['categoria'];$datosMod['categoria'] = $this -> categoria;}
-            if(isset($datos['nit_proveedor'])){$this->nit_proveedor = $datos['nit_proveedor']; $datosMod['nit_proveedor'] = $this -> nit_proveedor;}
-           
+            if(isset($datos['Id_categoria'])){ $this->categoria = $datos['Id_categoria'];$datosMod['Id_categoria'] = $this -> categoria;}
+            if(isset($datos['Id_proveedor'])){$this->nit_proveedor = $datos['Id_proveedor']; $datosMod['Id_proveedor'] = $this -> nit_proveedor;}
             if(isset($datos['precio_costo'])){$this->precio_costo = $datos['precio_costo']; $datosMod['precio_costo'] = $this -> precio_costo;}
             if(isset($datos['precio_publico'])){$this->precio_publico = $datos['precio_publico'];$datosMod['precio_publico'] = $this -> precio_publico;}
             if(isset($datos['iva'])){$this->iva = $datos['iva'];$datosMod['iva'] = $this -> iva;}
@@ -139,10 +139,12 @@ class producto extends conexion{
             
             if($resp){
                 $respuesta = $_respuestas -> response;
-                $resuesta['result'] = array(
-                    "El producto ha sido modificado"
+                $respuesta["result"] = array(
+                    "se ha modificado el producto"
                 );
                 return $respuesta;
+            }{
+                return $_respuestas -> error_200('No se ha realizado ningun cambio');
             }
         }
     }
@@ -158,8 +160,8 @@ class producto extends conexion{
         
         $query1 = rtrim($query, ", ") .  " WHERE Id_producto= '" . $this->id . "'";
         $resp = parent::nonQuery($query1);
-        echo $query1;
-        echo $resp;
+        //echo $query1;
+        //echo $resp;
         if($resp) {
             return $resp;
         }else{
