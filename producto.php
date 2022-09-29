@@ -17,8 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
         http_response_code(200);
     }else if (isset($_GET['Nameproduct'])){
         $productoId = $_GET['Nameproduct'];
-    
-        $datosProducto = $_producto -> obtenerProducto($productoId);
+        $datosProducto = $_producto -> obtenerProductoId($productoId);
         header("Content-Type: application/json");
         echo json_encode($datosProducto);
         http_response_code(200);

@@ -21,7 +21,6 @@ if($_SERVER['REQUEST_METHOD']=="GET"){
 
 }else if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-    
 
     $postBody = file_get_contents("php://input");
     $datosArray = $_users -> post($postBody);

@@ -40,6 +40,7 @@ class producto extends conexion{
     public function obtenerProducto($name){
         $_respuestas = new respuestas;
         $query = "SELECT  * , (precio_publico-precio_costo) as rentabilidad FROM producto WHERE nombre = '$name'";
+        
         $resp = parent::obtenerDatos($query);
         if($resp){
             return $resp;
@@ -49,7 +50,11 @@ class producto extends conexion{
     }
     public function obtenerProductoId($idProducto){
         $_respuestas = new respuestas;
-        $query = "SELECT  * , (precio_publico-precio_costo) as rentabilidad FROM producto WHERE Id_producto = '$idProducto'";
+        $query = "SELECT p.Id_producto,p.nombre as NombreProducto, p.upload, p.precio_costo, p.precio_publico, p.iva, p.fecha_entrada, p.fecha_vencimiento, p.descripcion,   c.nombre  as NombreCategoria, c.descripcionCat, pr.nombre as NombreProveedor, pr.nit as NitProveedor, (p.precio_publico-p.precio_costo) as rentabilidad
+        from producto p 
+        inner join categoria c on p.Id_categoria = c.Id_categoria
+        inner join proveedor pr on p.Id_proveedor = pr.Id_proveedor WHERE Id_producto = '$idProducto'";
+        echo $query;
         $resp = parent::obtenerDatos($query);
         if($resp){
             return $resp;
