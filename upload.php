@@ -7,7 +7,7 @@
 
  if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-    $folderPath = "upload/productos"; 
+    $folderPath = "upload/productos/"; 
     $file_tmp = $_FILES['file']['tmp_name'];
     $file_ext = strtolower(end(explode('.',$_FILES['file']['name'])));
     $queryId = "SELECT Id_producto FROM producto ORDER BY  Id_producto DESC LIMIT 1";

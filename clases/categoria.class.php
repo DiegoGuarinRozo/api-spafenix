@@ -8,10 +8,10 @@ class categoria extends conexion{
     public $nombre = '';
     public $descripcionCat = '';
 
-    public function listaCat($categorias){
+    public function listaCat($categorias, $id){
         $_respuestas = new respuestas;
         if($categorias == 'Categorias'){
-            $query = "SELECT * FROM categoria";
+            $query = "SELECT * FROM categoria ORDER BY Id_categoria = $id DESC";
             $resp = parent::obtenerDatos($query);
             if($resp){
                 return $resp;
@@ -23,7 +23,7 @@ class categoria extends conexion{
 
     public function categoriaUnica($name){
         $_respuestas = new respuestas;
-        $query = "SELECT * FROM categoria WHERE nombre = '$name'";
+        $query = "SELECT * FROM categoria WHERE nombre = '$name' ORDER BY Id_categoria ASC";
         $resp = $resp = parent::obtenerDatos($query);
         if($resp){
             return $resp;
