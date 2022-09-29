@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
 
     if(isset($_GET["cat"])){
         $categorias = $_GET["cat"];
-        $id = $_GET["id"];
+        $id = $_GET["Id"];
         $listaCategorias = $_categoria -> listaCat($categorias, $id);
         header("Content-Type: application/json");
         echo json_encode($listaCategorias);

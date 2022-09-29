@@ -10,7 +10,8 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
 
     if(isset($_GET["provee"])){
         $proveedores = $_GET["provee"];
-        $listaProveedores = $_proveedor -> listaProvee($proveedores);
+        $id = $_GET["Id"];
+        $listaProveedores = $_proveedor -> listaProvee($proveedores, $id);
         header("Content-Type: application/json");
         echo json_encode($listaProveedores);
         http_response_code(200);

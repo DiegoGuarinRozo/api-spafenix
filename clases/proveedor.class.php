@@ -10,10 +10,11 @@ class proveedor extends conexion{
     public $correo = '';
     public $telefono = '';
 
-    public function listaProvee($proveedores){
+    public function listaProvee($proveedores, $id){
         $_respuestas = new respuestas;
         if($proveedores == 'Proveedores'){
-            $query = "SELECT * FROM proveedor";
+            $query = "SELECT * FROM proveedor ORDER BY Id_proveedor = $id DESC";
+            echo $query;
             $resp = parent::obtenerDatos($query);
             if($resp){
                 return $resp;
