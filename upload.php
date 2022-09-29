@@ -12,29 +12,26 @@
 
  if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-    $folderPath = "upload/productos/"; 
+    $folderPath = "upload/productos"; 
     $file_tmp = $_FILES['file']['tmp_name'];
     $file_ext = strtolower(end(explode('.',$_FILES['file']['name'])));
-    $queryId = "SELECT Id_producto FROM producto ORDER BY  Id_producto DESC ";
+    $queryId = "SELECT Id_producto FROM producto ORDER BY  Id_producto DESC LIMIT 1";
     $respId = $_conexion->obtenerDatos($queryId);    
     if($respId){
-        $file = $folderPath . 'producto_'.$respId[1]['Id_producto'] . '.'.$file_ext;
-        echo $file;
+        $file = $folderPath . 'producto_'.$respId[0]['Id_producto'] . '.'.$file_ext;
         move_uploaded_file($file_tmp, $file);
+        $queryUpload = "UPDATE producto SET upload = $file WHERE Id_producto = " . $respId[0]['Id_producto'];
+        $respUpload = $_conexion->nonQuery($queryUpload);
+        if($respUpload) {
+            return $respUpload;
+        }else{
+            return 0;
+        }
     }else{
         $_respuestas -> error_500();
     }
-
-    $queryUpload = "UPDATE producto SET upload = '".$file."' WHERE Id_producto = " . $respId[1]['Id_producto'];
-    echo $queryUpload;
-    $resp = $_conexion->nonQuery($queryUpload);
-    if($resp) {
-        return $resp;
-    }else{
-        return 0;
-    }
  
 }
-
+ 
 
 ?>
