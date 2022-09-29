@@ -14,7 +14,6 @@ class proveedor extends conexion{
         $_respuestas = new respuestas;
         if($proveedores == 'Proveedores'){
             $query = "SELECT * FROM proveedor ORDER BY Id_proveedor = $id DESC";
-            echo $query;
             $resp = parent::obtenerDatos($query);
             if($resp){
                 return $resp;
