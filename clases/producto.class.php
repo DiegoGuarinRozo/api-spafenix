@@ -103,7 +103,7 @@ class producto extends conexion{
         
         $query =  "INSERT INTO " . $this->table . " (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento, descripcion)
         values 
-        ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "'," . $this->fecha_entrada . "," . $this->fecha_vencimiento . ",'" . $this->fecha_vencimiento . "')";
+        ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this-> precio_costo . "','" . $this->precio_publico . "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "','" . $this->descripcion . "')";
         // "INSERT INTO producto (Id_categoria, Id_proveedor, nombre, precio_costo, precio_publico, iva, fecha_entrada, fecha_vencimiento) values ('" . $this->id_categoria . "','" . $this->id_proveedor . "','" . $this->nombre . "','" . $this->precio_costo . "','" . $this->precio_publico "','" . $this->iva . "','" . $this->fecha_entrada . "','" . $this->fecha_vencimiento . "')";  
 
         $resp = parent::nonQueryId($query);

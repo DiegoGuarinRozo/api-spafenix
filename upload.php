@@ -11,7 +11,7 @@
         $folderPath = "upload/productos/"; 
         $file_tmp = $_FILES['file']['tmp_name'];
         $file_ext = strtolower(end(explode('.',$_FILES['file']['name'])));
-        $file = $folderPath . 'producto_'.$id_prod. '.'.$file_ext;
+        $file = $folderPath . 'producto_'.$id_prod.'_'.time().'.'.$file_ext;
         move_uploaded_file($file_tmp, $file);
         $queryUpload = "UPDATE producto SET upload = '". $file ."' WHERE Id_producto = $id_prod";
         $respUpload = $_conexion->nonQuery($queryUpload);
@@ -22,7 +22,7 @@
         $queryId = "SELECT Id_producto FROM producto ORDER BY  Id_producto DESC LIMIT 1";
         $respId = $_conexion->obtenerDatos($queryId);    
         if($respId){
-            $file = $folderPath . 'producto_'.$respId[0]['Id_producto'] . '.'.$file_ext;
+            $file = $folderPath . 'producto_'.$respId[0]['Id_producto'].$id_prod.'_'.time().'.'.$file_ext;
             move_uploaded_file($file_tmp, $file);
             
             $queryUpload = "UPDATE producto SET upload ='". $file ."' WHERE Id_producto = " . $respId[0]['Id_producto'];
